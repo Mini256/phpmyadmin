@@ -123,7 +123,6 @@ jobs:
           CI_MODE: selenium
           TESTSUITE_SELENIUM_BROWSER: chrome
           TESTSUITE_USER: root
-          TESTSUITE_PASSWORD: ''
           # Port defined in tests/nginx.conf
           TESTSUITE_URL: http://docker-host-bridge:8000
           TESTSUITE_DATABASE_PREFIX: "selenium"
