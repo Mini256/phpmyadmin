@@ -116,7 +116,8 @@ jobs:
         run: |
           # Add the following line to run the SQL command
           mysql -h 127.0.0.1 -P 3306 -u root -e "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"
-          
+          mysql -h 127.0.0.1 -P 3306 -u root -e "ALTER USER 'root'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'testbench'; FLUSH PRIVILEGES;"
+
           ./tests/start-local-server
           echo "SELENIUM_TEMPDIR=$(cat /tmp/last_temp_dir_phpMyAdminTests)" >> $GITHUB_OUTPUT
         id: start-local-server
@@ -126,7 +127,7 @@ jobs:
           CI_MODE: selenium
           TESTSUITE_SELENIUM_BROWSER: chrome
           TESTSUITE_USER: root
-          TESTSUITE_PASSWORD: ""
+          TESTSUITE_PASSWORD: testbench
           # Port defined in tests/nginx.conf
           TESTSUITE_URL: http://docker-host-bridge:8000
           TESTSUITE_DATABASE_PREFIX: "selenium"
