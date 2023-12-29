@@ -21,13 +21,13 @@ jobs:
     runs-on: "ubuntu-latest"
     services:
       database-server:
-        image: "mysql:5.7"
+        image: "pingcap/tidb-server:7.1.3"
         env:
           MYSQL_ROOT_PASSWORD: testbench
         ports:
-          - "3306:3306"
+          - "3306:4000"
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="curl -f http://localhost:10080/_ping || false"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
