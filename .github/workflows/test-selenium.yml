@@ -21,9 +21,16 @@ jobs:
     runs-on: "ubuntu-latest"
     services:
       database-server:
-        image: "pingcap/tidb:v7.1.3"
+        image: "mysql:5.7"
+        env:
+          MYSQL_ROOT_PASSWORD: testbench
         ports:
-          - "3306:4000"
+          - "3306:3306"
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
       selenium-server:
         image: selenium/standalone-chrome:4
@@ -123,6 +130,7 @@ jobs:
           CI_MODE: selenium
           TESTSUITE_SELENIUM_BROWSER: chrome
           TESTSUITE_USER: root
+          TESTSUITE_PASSWORD: testbench
           # Port defined in tests/nginx.conf
           TESTSUITE_URL: http://docker-host-bridge:8000
           TESTSUITE_DATABASE_PREFIX: "selenium"
