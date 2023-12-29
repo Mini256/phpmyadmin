@@ -23,11 +23,7 @@ jobs:
       database-server:
         image: "pingcap/tidb:v7.1.3"
         ports:
-          - "3306:3306"
-        options: >-
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+          - "3306:4000"
 
       selenium-server:
         image: selenium/standalone-chrome:4
