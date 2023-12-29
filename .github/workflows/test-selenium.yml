@@ -114,11 +114,11 @@ jobs:
           FPM_PATH: php-fpm${{ env.php-version }}
           SKIP_STANDALONE: 1
         run: |
-          ./tests/start-local-server
-          echo "SELENIUM_TEMPDIR=$(cat /tmp/last_temp_dir_phpMyAdminTests)" >> $GITHUB_OUTPUT
-
           # Add the following line to run the SQL command
           mysql -h 127.0.0.1 -P 3306 -u root -e "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"
+          
+          ./tests/start-local-server
+          echo "SELENIUM_TEMPDIR=$(cat /tmp/last_temp_dir_phpMyAdminTests)" >> $GITHUB_OUTPUT
         id: start-local-server
 
       - name: Run Selenium tests
@@ -132,7 +132,7 @@ jobs:
           TESTSUITE_DATABASE_PREFIX: "selenium"
           TESTSUITE_SELENIUM_HOST: "127.0.0.1"
           TESTSUITE_SELENIUM_PORT: "4444"
-        run: ./vendor/bin/phpunit --testsuite selenium --no-logging --no-coverage --stop-on-skipped --testdox tests/selenium/${{ matrix.test-name }}Test.php
+        run: ./vendor/bin/phpunit --testsuite selenium --no-coverage --stop-on-skipped --display-errors --testdox tests/selenium/${{ matrix.test-name }}Test.php
 
       - name: Output logs and stop server
         env:
