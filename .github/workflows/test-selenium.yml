@@ -21,7 +21,7 @@ jobs:
     runs-on: "ubuntu-latest"
     services:
       database-server:
-        image: "pingcap/tidb-server:7.1.3"
+        image: "pingcap/tidb:v7.1.3"
         env:
           MYSQL_ROOT_PASSWORD: testbench
         ports:
